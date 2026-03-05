@@ -3,31 +3,29 @@ name: Deploy to Vercel
 on:
   push:
     branches:
-      - main  # Change to your default branch if needed
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # Step 2: Set up Node.js
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 20 # Use the Nodde.js version compatible with your Angular app
+          node-version: 20
+          cache: npm
 
-      # Step 3: Install dependencies
       - name: Install dependencies
-        run: npm install && npm i -save-dev @types/nodemailer
+        run: |
+          npm ci
+          npm install --save-dev @types/nodemailer
 
-      # Step 4: Build the Angular app
-      - name: Build Angular app
-        run: npm run build --prod
+      - name: Build Next.js app
+        run: npm run build
 
-      # Step 5: Deploy to Vercel
       - name: Deploy to Vercel
         run: npx vercel --prod --yes --token ${{ secrets.VERCEL_TOKEN }}
