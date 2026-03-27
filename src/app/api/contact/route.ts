@@ -9,8 +9,8 @@ type Body = {
   message: string;
 };
 
-function escape(s: string) {
-  return (s ?? "").toString().trim();
+function escape(value: string | undefined) {
+  return (value ?? "").trim();
 }
 
 export async function POST(req: Request) {
